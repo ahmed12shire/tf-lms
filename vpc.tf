@@ -31,3 +31,12 @@ resource "aws_subnet" "lms-projectb-priv-subnet" {
     Name = "lms-projectb-priv-subnet"
   }
 }
+
+# INTERNET GATEWAY
+resource "aws_internet_gateway" "lms-projectb-gw" {
+  vpc_id = aws_vpc.lms-projectb-vpc.id
+
+  tags = {
+    Name = "lms-projectb-gw"
+  }
+}
