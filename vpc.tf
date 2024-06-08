@@ -54,3 +54,24 @@ resource "aws_route_table" "lms-projectb-pub-rt" {
     Name = "lms-projectb-pub-rt"
   }
 }
+
+# PUBLIC ROUTE TABLE ASSOCIATION
+resource "aws_route_table_association" "lms-projectb-pub-rt-association" {
+  subnet_id      = aws_subnet.lms-projectb-pub-subnet.id
+  route_table_id = aws_route_table.lms-projectb-pub-rt.id
+}
+
+# PRIVATE ROUTE TABLE
+resource "aws_route_table" "lms-projectb-priv-rt" {
+  vpc_id = aws_vpc.lms-projectb-vpc.id
+
+  tags = {
+    Name = "lms-projectb-priv-rt"
+  }
+}
+
+# PRIVATE ROUTE TABLE ASSOCIATION
+resource "aws_route_table_association" "lms-projectb-priv-rt-association" {
+  subnet_id      = aws_subnet.lms-projectb-priv-subnet.id
+  route_table_id = aws_route_table.lms-projectb-priv-rt.id
+}
