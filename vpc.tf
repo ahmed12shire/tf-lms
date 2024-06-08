@@ -33,10 +33,24 @@ resource "aws_subnet" "lms-projectb-priv-subnet" {
 }
 
 # INTERNET GATEWAY
-resource "aws_internet_gateway" "lms-projectb-gw" {
+resource "aws_internet_gateway" "lms-projectb-igw" {
   vpc_id = aws_vpc.lms-projectb-vpc.id
 
   tags = {
-    Name = "lms-projectb-gw"
+    Name = "lms-projectb-igw"
+  }
+}
+
+# PUBLIC ROUTE TABLE
+resource "aws_route_table" "lms-projectb-pub-rt" {
+  vpc_id = aws_vpc.lms-projectb-vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.lms-projectb-igw.id
+  }
+
+  tags = {
+    Name = "lms-projectb-pub-rt"
   }
 }
