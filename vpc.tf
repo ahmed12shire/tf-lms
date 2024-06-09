@@ -166,7 +166,6 @@ resource "aws_network_acl" "lms-projectb-pub-nacl2" {
 resource "aws_network_acl_association" "lms-projectb-pub-nacl-association" {
   network_acl_id = aws_network_acl.lms-projectb-pub-nacl.id
   subnet_id      = aws_subnet.lms-projectb-pub-subnet.id
-  subnet_id      = aws_subnet.lms-projectb-pub-subnet2.id
 }
 
 # PUBLIC NACL 2 ASSOCIATION
