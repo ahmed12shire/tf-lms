@@ -1,3 +1,12 @@
+# Import existing IAM roles
+data "aws_iam_role" "lms-cluster-role" {
+  name = "lms-cluster-role" 
+}
+
+data "aws_iam_role" "lms-node-role" {
+  name = "lms-node-role" 
+}
+
 # CREATING EKS CLUSTER
 resource "aws_eks_cluster" "lms-cluster" {
   name     = "lms-cluster-production"
