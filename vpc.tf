@@ -75,3 +75,30 @@ resource "aws_route_table_association" "lms-projectb-priv-rt-association" {
   subnet_id      = aws_subnet.lms-projectb-priv-subnet.id
   route_table_id = aws_route_table.lms-projectb-priv-rt.id
 }
+
+# PUBLIC NACL
+resource "aws_network_acl" "lms-projectb-pub-nacl" {
+  vpc_id = aws_vpc.lms-projectb-vpc.id
+
+  egress {
+    protocol   = "tcp"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  tags = {
+    Name = "lms-projectb-pub-nacl"
+  }
+}
