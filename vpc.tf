@@ -52,7 +52,7 @@ resource "aws_internet_gateway" "lms-projectb-igw" {
   }
 }
 
-# PUBLIC ROUTE TABLE
+# PUBLIC ROUTE TABLE 1
 resource "aws_route_table" "lms-projectb-pub-rt" {
   vpc_id = aws_vpc.lms-projectb-vpc.id
 
@@ -66,12 +66,32 @@ resource "aws_route_table" "lms-projectb-pub-rt" {
   }
 }
 
-# PUBLIC ROUTE TABLE ASSOCIATION
+# PUBLIC ROUTE TABLE 2
+resource "aws_route_table" "lms-projectb-pub-rt2" {
+  vpc_id = aws_vpc.lms-projectb-vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.lms-projectb-igw.id
+  }
+
+  tags = {
+    Name = "lms-projectb-pub-rt2"
+  }
+}
+
+# PUBLIC ROUTE TABLE 1 ASSOCIATION
 resource "aws_route_table_association" "lms-projectb-pub-rt-association" {
   subnet_id      = aws_subnet.lms-projectb-pub-subnet.id
+  route_table_id = aws_route_table.lms-projectb-pub-rt.id
+}
+
+# PUBLIC ROUTE TABLE 2 ASSOCIATION
+resource "aws_route_table_association" "lms-projectb-pub-rt2-association" {
   subnet_id      = aws_subnet.lms-projectb-pub-subnet2.id
   route_table_id = aws_route_table.lms-projectb-pub-rt.id
 }
+
 
 # PRIVATE ROUTE TABLE
 resource "aws_route_table" "lms-projectb-priv-rt" {
@@ -115,10 +135,43 @@ resource "aws_network_acl" "lms-projectb-pub-nacl" {
   }
 }
 
-# PUBLIC NACL ASSOCIATION
+# PUBLIC NACL 2
+resource "aws_network_acl" "lms-projectb-pub-nacl2" {
+  vpc_id = aws_vpc.lms-projectb-vpc.id
+
+  egress {
+    protocol   = "tcp"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  tags = {
+    Name = "lms-projectb-pub-nacl2"
+  }
+}
+
+# PUBLIC NACL 1 ASSOCIATION
 resource "aws_network_acl_association" "lms-projectb-pub-nacl-association" {
   network_acl_id = aws_network_acl.lms-projectb-pub-nacl.id
   subnet_id      = aws_subnet.lms-projectb-pub-subnet.id
+  subnet_id      = aws_subnet.lms-projectb-pub-subnet2.id
+}
+
+# PUBLIC NACL 2 ASSOCIATION
+resource "aws_network_acl_association" "lms-projectb-pub-nacl2-association" {
+  network_acl_id = aws_network_acl.lms-projectb-pub-nacl2.id
   subnet_id      = aws_subnet.lms-projectb-pub-subnet2.id
 }
 
