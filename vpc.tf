@@ -188,3 +188,13 @@ resource "aws_vpc_security_group_ingress_rule" "lms-projectb-pub-9000" {
   ip_protocol       = "tcp"
   to_port           = 9000
 }
+
+#  OUTBOUND TRAFFIC
+resource "aws_vpc_security_group_egress_rule" "lms-projectb-pub-outbound" {
+  security_group_id = aws_security_group.lms-projectb-pub-sg.id
+
+  cidr_ipv4   = "0.0.0.0/0"
+  from_port   = 0
+  ip_protocol = "tcp"
+  to_port     = 65535
+}
