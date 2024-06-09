@@ -141,3 +141,50 @@ resource "aws_network_acl_association" "lms-projectb-priv-nacl-association" {
   network_acl_id = aws_network_acl.lms-projectb-priv-nacl.id
   subnet_id      = aws_subnet.lms-projectb-priv-subnet.id
 }
+
+# PUBLIC SECURITY GROUP
+resource "aws_security_group" "lms-projectb-pub-sg" {
+  name        = "lms-projectb-pub-server-sg"
+  description = "Allow web server traffic"
+  vpc_id      = aws_vpc.lms-projectb-vpc.id
+
+  tags = {
+    Name = "lms-projectb-pub-sg"
+  }
+}
+
+# SSH TRAFFIC
+resource "aws_vpc_security_group_ingress_rule" "lms-projectb-pub-ssh" {
+  security_group_id = aws_security_group.lms-projectb-pub-sg.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 22
+  ip_protocol       = "tcp"
+  to_port           = 22
+}
+
+# HTTP TRAFFIC
+resource "aws_vpc_security_group_ingress_rule" "lms-projectb-pub-http" {
+  security_group_id = aws_security_group.lms-projectb-pub-sg.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 80
+  ip_protocol       = "tcp"
+  to_port           = 80
+}
+
+# 8080 TRAFFIC
+resource "aws_vpc_security_group_ingress_rule" "lms-projectb-pub-8080" {
+  security_group_id = aws_security_group.lms-projectb-pub-sg.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 8080
+  ip_protocol       = "tcp"
+  to_port           = 8080
+}
+
+# 9000 TRAFFIC
+resource "aws_vpc_security_group_ingress_rule" "lms-projectb-pub-9000" {
+  security_group_id = aws_security_group.lms-projectb-pub-sg.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 9000
+  ip_protocol       = "tcp"
+  to_port           = 9000
+}
