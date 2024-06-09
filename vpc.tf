@@ -102,3 +102,9 @@ resource "aws_network_acl" "lms-projectb-pub-nacl" {
     Name = "lms-projectb-pub-nacl"
   }
 }
+
+# PUBLIC NACL ASSOCIATION
+resource "aws_network_acl_association" "lms-projectb-pub-nacl-association" {
+  network_acl_id = aws_network_acl.lms-projectb-pub-nacl.id
+  subnet_id      = aws_subnet.lms-projectb-pub-subnet.id
+}
