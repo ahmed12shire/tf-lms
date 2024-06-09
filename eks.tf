@@ -10,7 +10,7 @@ data "aws_iam_role" "lms-node-role" {
 # CREATING EKS CLUSTER
 resource "aws_eks_cluster" "lms-cluster" {
   name     = "lms-cluster-production"
-  role_arn = aws_iam_role.lms-cluster-role.arn
+  role_arn = data.aws_iam_role.lms-cluster-role.arn
 
   vpc_config {
     subnet_ids = [aws_subnet.lms-projectb-pub-subnet.id]
@@ -29,7 +29,7 @@ output "kubeconfig-certificate-authority-data" {
 resource "aws_eks_node_group" "lms-eks-nodegroup" {
   cluster_name    = aws_eks_cluster.lms-cluster.name
   node_group_name = "lms-eks-node-group"
-  node_role_arn   = aws_iam_role.lms-node-role.arn
+  node_role_arn   = data.aws_iam_role.lms-node-role.arn
   subnet_ids      = aws_subnet.lms-projectb-pub-subnet[*].id
 
   scaling_config {
