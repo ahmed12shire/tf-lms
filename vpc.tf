@@ -108,3 +108,36 @@ resource "aws_network_acl_association" "lms-projectb-pub-nacl-association" {
   network_acl_id = aws_network_acl.lms-projectb-pub-nacl.id
   subnet_id      = aws_subnet.lms-projectb-pub-subnet.id
 }
+
+# PRIVATE NACL
+resource "aws_network_acl" "lms-projectb-priv-nacl" {
+  vpc_id = aws_vpc.lms-projectb-vpc.id
+
+  egress {
+    protocol   = "tcp"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  tags = {
+    Name = "lms-projectb-priv-nacl"
+  }
+}
+
+# PRIVATE NACL ASSOCIATION
+resource "aws_network_acl_association" "lms-projectb-priv-nacl-association" {
+  network_acl_id = aws_network_acl.lms-projectb-priv-nacl.id
+  subnet_id      = aws_subnet.lms-projectb-priv-subnet.id
+}
