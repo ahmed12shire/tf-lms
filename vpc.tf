@@ -24,7 +24,7 @@ resource "aws_subnet" "lms-projectb-pub-subnet" {
 resource "aws_subnet" "lms-projectb-pub-subnet2" {
   vpc_id     = aws_vpc.lms-projectb-vpc.id
   cidr_block = "10.0.3.0/24"
-  availability_zone_id = "cac1-az3"
+  availability_zone_id = "cac1-az4"
   map_public_ip_on_launch = "true"
 
   tags = {
