@@ -13,7 +13,7 @@ resource "aws_eks_cluster" "lms-cluster" {
   role_arn = data.aws_iam_role.lms-cluster-role.arn
 
   vpc_config {
-    subnet_ids = [aws_subnet.lms-projectb-pub-subnet.id]
+    subnet_ids = [aws_subnet.lms-projectb-pub-subnet.id, aws_subnet.lms-projectb-pub-subnet2.id]
   }
 }
 
